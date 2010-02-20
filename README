@@ -1,0 +1,28 @@
+
+digest-dynpmcs : set of message-digest dynpmcs for the Parrot VM
+================================================================
+
+Description
+-----------
+
+This PMC group is a wrapper over libssl.
+It provides : md2, md4, md5, ripemd160, sha, sha1, sha256 and sha512.
+
+See http://www.openssl.org
+
+Build & Install
+---------------
+
+From source :
+    $ parrot setup.pir
+    $ parrot setup.pir test
+    $ sudo parrot setup.pir install
+
+Via Plumage :
+    $ plumage install digest-dynpmcs
+
+Links
+-----
+
+The project is hosted at http://github.com/fperrad/digest-dynpmcs/.
+

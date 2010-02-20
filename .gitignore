@@ -1,0 +1,14 @@
+
+src/pmc/*.pmc
+src/pmc/*.c
+src/pmc/*.h
+src/pmc/*.dump
+src/pmc/*.o
+src/pmc/*.obj
+
+t/*.t
+
+dynext
+
+MANIFEST
+
