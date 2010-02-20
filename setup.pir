@@ -205,18 +205,6 @@ GENERATED_FILES
     unlink($P0, 1 :named('verbose'))
 .end
 
-.sub 'detect_openssl' :anon
-    # currently, uses Parrot's config
-    .local pmc config
-    config = get_config()
-    $I0 = config['has_crypto']
-    if $I0 goto L1
-    die "no crypto"
-  L1:
-    $S0 = config['openssl_version']
-    .return ($S0)
-.end
-
 .sub 'get_ldflags' :anon
     .local pmc config
     config = get_config()
@@ -229,6 +217,63 @@ GENERATED_FILES
   L1:
     .return ($S0)
 .end
+
+.sub 'detect_openssl'
+    .local string test
+    $S0 = get_exe()
+    test = "test_ssl" . $S0
+
+    $S0 = <<'SOURCE_C'
+#include <stdio.h>
+#include <stdlib.h>
+#include <openssl/opensslv.h>
+#include <openssl/err.h>
+
+int
+main(int argc, char *argv[])
+{
+    unsigned long dummy = ERR_get_error();
+
+    printf("%s\n", OPENSSL_VERSION_TEXT);
+
+    return EXIT_SUCCESS;
+}
+SOURCE_C
+    spew('test_ssl.c', $S0)
+
+    .local pmc config
+    config = get_config()
+    .local string cmd
+    cmd = config['cc']
+    cmd .= " "
+    $S0 = get_cflags()
+    cmd .= $S0
+    cmd .= " "
+    $S0 = get_ldflags()
+    cmd .= $S0
+    cmd .= " test_ssl.c -o "
+    cmd .= test
+    system(cmd, 0 :named('verbose'), 1 :named('ignore_error'))
+    unlink('test_ssl.c', 0 :named('verbose'))
+
+    cmd = "./" . test
+    $P0 = open cmd, 'rp'
+    $S0 = readline $P0
+    close $P0
+    $I0 = index $S0, 'OpenSSL '
+    if $I0 == 0 goto L1
+    say $S0
+    die "OpenSSL not detected"
+  L1:
+    $I0 = index $S0, ' ', 8
+    $I0 -= 8
+    $S0 = substr $S0, 8, $I0
+
+    unlink(test, 0 :named('verbose'))
+    say $S0
+    .return ($S0)
+.end
+
 
 # Local Variables:
 #   mode: pir
