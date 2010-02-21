@@ -219,11 +219,8 @@ GENERATED_FILES
 .end
 
 .sub 'detect_openssl'
-    .local string test
-    $S0 = get_exe()
-    test = "test_ssl" . $S0
-
-    $S0 = <<'SOURCE_C'
+    $S0 = get_ldflags()
+    $S0 = cc_run(<<'SOURCE_C', $S0 :named('ldflags'), 0 :named('verbose'))
 #include <stdio.h>
 #include <stdlib.h>
 #include <openssl/opensslv.h>
@@ -239,27 +236,7 @@ main(int argc, char *argv[])
     return EXIT_SUCCESS;
 }
 SOURCE_C
-    spew('test_ssl.c', $S0)
 
-    .local pmc config
-    config = get_config()
-    .local string cmd
-    cmd = config['cc']
-    cmd .= " "
-    $S0 = get_cflags()
-    cmd .= $S0
-    cmd .= " "
-    $S0 = get_ldflags()
-    cmd .= $S0
-    cmd .= " test_ssl.c -o "
-    cmd .= test
-    system(cmd, 0 :named('verbose'), 1 :named('ignore_error'))
-    unlink('test_ssl.c', 0 :named('verbose'))
-
-    cmd = "./" . test
-    $P0 = open cmd, 'rp'
-    $S0 = readline $P0
-    close $P0
     $I0 = index $S0, 'OpenSSL '
     if $I0 == 0 goto L1
     say $S0
@@ -269,7 +246,6 @@ SOURCE_C
     $I0 -= 8
     $S0 = substr $S0, 8, $I0
 
-    unlink(test, 0 :named('verbose'))
     say $S0
     .return ($S0)
 .end
