@@ -210,7 +210,7 @@ GENERATED_FILES
     config = get_config()
     $S0 = '-lcrypto'
     $S1 = config['osname']
-    unless $S1 == 'win32' goto L1
+    unless $S1 == 'MSWin32' goto L1
     $S2 = config['cc']
     if $S2 == 'gcc' goto L1
     $S0 = 'libcrypto.lib'
