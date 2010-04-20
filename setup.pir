@@ -35,8 +35,8 @@ See F<runtime/parrot/library/distutils.pir>.
     $P0['name'] = 'digest-dynpmcs'
     $P0['abstract'] = 'Set of message-digest dynpmcs for the Parrot VM.'
     $P0['authority'] = 'http://github.com/fperrad'
-    $P0['description'] = 'libssl-powered md2, md4, md5, ripemd160, sha, sha1, sha256 and sha512 dynpmcs for Parrot.'
-    $P1 = split ',', 'digest,dynpmc,md2,md4,md5,ripemd160,sha,sha1,sha256,sha512'
+    $P0['description'] = 'libssl-powered md4, md5, ripemd160, sha, sha1, sha256 and sha512 dynpmcs for Parrot.'
+    $P1 = split ',', 'digest,dynpmc,md4,md5,ripemd160,sha,sha1,sha256,sha512'
     $P0['keywords'] = $P1
     $P0['license_type'] = 'Artistic License 2.0'
     $P0['license_uri'] = 'http://www.perlfoundation.org/artistic_license_2_0'
@@ -48,7 +48,6 @@ See F<runtime/parrot/library/distutils.pir>.
     # build
     $P2 = new 'Hash'
     $P3 = split "\n", <<'GENERATED_FILES'
-src/pmc/md2.pmc
 src/pmc/md4.pmc
 src/pmc/md5.pmc
 src/pmc/ripemd160.pmc
@@ -70,7 +69,6 @@ GENERATED_FILES
     # dist
     $P0['doc_files'] = 'README'
     $P4 = split "\n", <<'GENERATED_FILES'
-src/pmc/md2.pmc
 src/pmc/md4.pmc
 src/pmc/md5.pmc
 src/pmc/ripemd160.pmc
@@ -78,7 +76,6 @@ src/pmc/sha.pmc
 src/pmc/sha1.pmc
 src/pmc/sha256.pmc
 src/pmc/sha512.pmc
-t/md2.t
 t/md4.t
 t/md5.t
 t/ripemd160.t
@@ -103,9 +100,7 @@ GENERATED_FILES
     openssl_version  = detect_openssl()
     openssl_version  = config['openssl_version']
 
-    .local pmc md2, md4, md5, ripemd160, sha, sha1, sha256, sha512
-    md2 = new 'Hash'
-    md2['md_result'] = 'ab4f496bfb2a530b219ff33031fe06b0'
+    .local pmc md4, md5, ripemd160, sha, sha1, sha256, sha512
     md4 = new 'Hash'
     md4['md_result'] = 'd9130a8164549fe818874806e1c7014b'
     md5 = new 'Hash'
@@ -129,7 +124,6 @@ GENERATED_FILES
     sha512['md_inc'] = 'sha'
     sha512['version_needed'] = '0.9.8a'
     $P0 = new 'Hash'
-    $P0['MD2'] = md2
     $P0['MD4'] = md4
     $P0['MD5'] = md5
     $P0['RIPEMD160'] = ripemd160
