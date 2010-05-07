@@ -97,8 +97,7 @@ GENERATED_FILES
     .local pmc config
     config = get_config()
     .local string openssl_version
-    openssl_version  = detect_openssl()
-    openssl_version  = config['openssl_version']
+    openssl_version = detect_openssl()
 
     .local pmc md4, md5, ripemd160, sha, sha1, sha256, sha512
     md4 = new 'Hash'
