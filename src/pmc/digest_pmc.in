@@ -26,6 +26,20 @@ pmclass @TEMP_md_name@
 
 /*
 
+=item C<void *get_pointer()>
+
+Returns the address of the PMC.
+
+=cut
+
+*/
+
+    VTABLE void *get_pointer() {
+        return SELF;
+    }
+
+/*
+
 =item C<void init()>
 
 =cut

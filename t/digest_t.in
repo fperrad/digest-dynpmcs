@@ -20,7 +20,7 @@ Tests the C<digest_group> a libcrypto wrapper.
 .sub 'main' :main
     .include 'test_more.pir'
 
-    plan(2)
+    plan(3)
     .local pmc config
     $P0 = getinterp
     config = $P0[.IGLOBALS_CONFIG_HASH]
@@ -31,14 +31,15 @@ Tests the C<digest_group> a libcrypto wrapper.
 
     $P0 = loadlib 'digest_group'
     test_typeof()
+    test_get_addr()
     test_digest()
     .return()
 
   no_crypto:
-    skip(2, 'No crypto library available')
+    skip(3, 'No crypto library available')
     .return()
   old_openssl:
-    skip(2, 'Too old openssl library, needs at least @TEMP_md_skip@')
+    skip(3, 'Too old openssl library, needs at least @TEMP_md_skip@')
 .end
 
 
@@ -47,6 +48,13 @@ Tests the C<digest_group> a libcrypto wrapper.
     md = new '@TEMP_md_name@'
     $S0 = typeof md
     is($S0, '@TEMP_md_name@', '@TEMP_md_name@ typeof')
+.end
+
+.sub 'test_get_addr'
+    .local pmc md
+    md = new '@TEMP_md_name@'
+    $I0 = get_addr $P0
+    ok($I0, '@TEMP_md_name@ get_addr')
 .end
 
 .sub 'test_digest'
