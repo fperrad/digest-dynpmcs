@@ -1,5 +1,5 @@
 #! parrot
-# Copyright (C) 2009-2010, Parrot Foundation.
+# Copyright (C) 2009-2011, Parrot Foundation.
 
 =head1 NAME
 
@@ -31,7 +31,7 @@ Tests the C<digest_group> a libcrypto wrapper.
 
     $P0 = loadlib 'digest_group'
     test_typeof()
-    test_get_addr()
+    test_get_id()
     test_digest()
     .return()
 
@@ -50,10 +50,10 @@ Tests the C<digest_group> a libcrypto wrapper.
     is($S0, '@TEMP_md_name@', '@TEMP_md_name@ typeof')
 .end
 
-.sub 'test_get_addr'
+.sub 'test_get_id'
     .local pmc md
     md = new '@TEMP_md_name@'
-    $I0 = get_addr $P0
+    $I0 = get_id $P0
     ok($I0, '@TEMP_md_name@ get_addr')
 .end
 

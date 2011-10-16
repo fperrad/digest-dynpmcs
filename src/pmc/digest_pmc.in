@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2008-2010, Parrot Foundation.
+Copyright (C) 2008-2011, Parrot Foundation.
 
 =head1 NAME
 
@@ -23,20 +23,6 @@ pmclass @TEMP_md_name@
     dynpmc
     group digest_group
     lib crypto {
-
-/*
-
-=item C<void *get_pointer()>
-
-Returns the address of the PMC.
-
-=cut
-
-*/
-
-    VTABLE void *get_pointer() {
-        return SELF;
-    }
 
 /*
 
